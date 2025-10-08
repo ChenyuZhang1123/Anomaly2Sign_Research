@@ -1,6 +1,6 @@
 # Anomaly2Sign Research 项目
 
-这是一个通过……方法，从网络流量数据中自动生成异常检测签名的研究项目。
+复现Automatic decision tree-based NIDPS ruleset generation for DoS/DDoS attacks论文
 
 ## 功能与特性
 
