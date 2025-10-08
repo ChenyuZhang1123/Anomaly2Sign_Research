@@ -1,5 +1,7 @@
-# 忽略所有在 data 文件夹里的内容
-/data/
+# 明确忽略由代码生成的数据文件夹
+/data/processed/
+/data/resampled/
+/data/splitted/
 
 # 忽略 Python 自动生成的缓存文件
 __pycache__/
