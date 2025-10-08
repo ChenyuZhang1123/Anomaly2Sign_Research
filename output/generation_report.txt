@@ -1,0 +1,56 @@
+================================================================================
+Anomaly2Sign 规则生成实验报告
+================================================================================
+
+生成时间: 2025-10-04 11:49:57
+数据集: BUET (T-Link with RUS 采样)
+
+1. 模型配置
+----------------------------------------
+   模型类型: DT(7,entropy)
+   最大深度: 7
+   分裂准则: entropy
+
+2. 模型性能
+----------------------------------------
+   F1 Score: 0.9974 (99.74%)
+   AUC: 0.9998
+   训练时间: 2.3130s
+   测试时间: 0.3028s
+   满足 DR>=97.5%: 是
+
+3. 生成的规则统计
+----------------------------------------
+   总规则数: 10
+   决策树叶子节点数: 25
+   攻击类别规则数: 10
+
+   各攻击类型规则数:
+     - DNS-flood: 1 条
+     - HTTP-flood: 2 条
+     - ICMP-flood: 1 条
+     - TCPSYN-flood: 4 条
+     - UDP-flood: 2 条
+
+4. 规则列表
+----------------------------------------
+
+   DNS-flood:
+     SID 6: alert udp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"DNS-flood_attack"; classtype:attempted-dos; sid:6; dsize:>24; threshold:type both,track by_dst,count 100,seconds 10;)
+
+   HTTP-flood:
+     SID 4: alert http $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"HTTP-flood_attack"; classtype:attempted-dos; sid:4; dsize:<316; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+     SID 5: alert http $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"HTTP-flood_attack"; classtype:attempted-dos; sid:5; dsize:>316; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+
+   ICMP-flood:
+     SID 1: alert icmp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"ICMP-flood_attack"; classtype:attempted-dos; sid:1; dsize:<24; threshold:type both,track by_dst,count 100,seconds 10;)
+
+   TCPSYN-flood:
+     SID 7: alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"TCPSYN-flood_attack"; classtype:attempted-dos; sid:7; ttl:<13; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+     SID 8: alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"TCPSYN-flood_attack"; classtype:attempted-dos; sid:8; ttl:>12; dsize:<25; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+     SID 9: alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"TCPSYN-flood_attack"; classtype:attempted-dos; sid:9; ttl:<64; dsize:<25; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+     SID 10: alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"TCPSYN-flood_attack"; classtype:attempted-dos; sid:10; ttl:<64; dsize:<25; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+
+   UDP-flood:
+     SID 2: alert udp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"UDP-flood_attack"; classtype:attempted-dos; sid:2; ttl:<1; dsize:<24; threshold:type both,track by_dst,count 100,seconds 10;)
+     SID 3: alert udp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"UDP-flood_attack"; classtype:attempted-dos; sid:3; ttl:>62; dsize:<24; threshold:type both,track by_dst,count 100,seconds 10;)

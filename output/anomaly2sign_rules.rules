@@ -1,0 +1,32 @@
+# Anomaly2Sign 自动生成的 Suricata 规则
+# 生成时间: 2025-10-04 11:49:57
+# 模型: DT(7,entropy)
+# F1 Score: 0.9974
+# 总规则数: 10
+#
+# 变量定义（需根据实际网络环境配置）:
+# $ZERO_TRUST = [192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, !$NET_TO_PROTECT]
+# $NET_TO_PROTECT = 你的内部网络
+# $PORT_GROUP = any (或指定端口列表)
+#
+
+
+# DNS-flood (1 条规则)
+alert udp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"DNS-flood_attack"; classtype:attempted-dos; sid:6; dsize:>24; threshold:type both,track by_dst,count 100,seconds 10;)
+
+# HTTP-flood (2 条规则)
+alert http $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"HTTP-flood_attack"; classtype:attempted-dos; sid:4; dsize:<316; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+alert http $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"HTTP-flood_attack"; classtype:attempted-dos; sid:5; dsize:>316; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+
+# ICMP-flood (1 条规则)
+alert icmp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"ICMP-flood_attack"; classtype:attempted-dos; sid:1; dsize:<24; threshold:type both,track by_dst,count 100,seconds 10;)
+
+# TCPSYN-flood (4 条规则)
+alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"TCPSYN-flood_attack"; classtype:attempted-dos; sid:7; ttl:<13; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"TCPSYN-flood_attack"; classtype:attempted-dos; sid:8; ttl:>12; dsize:<25; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"TCPSYN-flood_attack"; classtype:attempted-dos; sid:9; ttl:<64; dsize:<25; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"TCPSYN-flood_attack"; classtype:attempted-dos; sid:10; ttl:<64; dsize:<25; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)
+
+# UDP-flood (2 条规则)
+alert udp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"UDP-flood_attack"; classtype:attempted-dos; sid:2; ttl:<1; dsize:<24; threshold:type both,track by_dst,count 100,seconds 10;)
+alert udp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:"UDP-flood_attack"; classtype:attempted-dos; sid:3; ttl:>62; dsize:<24; threshold:type both,track by_dst,count 100,seconds 10;)

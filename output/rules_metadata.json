@@ -1,0 +1,86 @@
+{
+  "generation_time": "2025-10-04T11:49:57.732192",
+  "model_name": "DT(7,entropy)",
+  "model_config": {
+    "max_depth": 7,
+    "criterion": "entropy"
+  },
+  "performance": {
+    "f1_score": 0.9973731507448371,
+    "auc": 0.999760944366037,
+    "train_time": 2.312953233718872,
+    "test_time": 0.3028137683868408
+  },
+  "rules": [
+    {
+      "sid": 1,
+      "attack_type": "ICMP-flood",
+      "samples": 1,
+      "rule": "alert icmp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"ICMP-flood_attack\"; classtype:attempted-dos; sid:1; dsize:<24; threshold:type both,track by_dst,count 100,seconds 10;)"
+    },
+    {
+      "sid": 2,
+      "attack_type": "UDP-flood",
+      "samples": 1,
+      "rule": "alert udp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"UDP-flood_attack\"; classtype:attempted-dos; sid:2; ttl:<1; dsize:<24; threshold:type both,track by_dst,count 100,seconds 10;)"
+    },
+    {
+      "sid": 3,
+      "attack_type": "UDP-flood",
+      "samples": 1,
+      "rule": "alert udp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"UDP-flood_attack\"; classtype:attempted-dos; sid:3; ttl:>62; dsize:<24; threshold:type both,track by_dst,count 100,seconds 10;)"
+    },
+    {
+      "sid": 4,
+      "attack_type": "HTTP-flood",
+      "samples": 1,
+      "rule": "alert http $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"HTTP-flood_attack\"; classtype:attempted-dos; sid:4; dsize:<316; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)"
+    },
+    {
+      "sid": 5,
+      "attack_type": "HTTP-flood",
+      "samples": 1,
+      "rule": "alert http $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"HTTP-flood_attack\"; classtype:attempted-dos; sid:5; dsize:>316; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)"
+    },
+    {
+      "sid": 6,
+      "attack_type": "DNS-flood",
+      "samples": 1,
+      "rule": "alert udp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"DNS-flood_attack\"; classtype:attempted-dos; sid:6; dsize:>24; threshold:type both,track by_dst,count 100,seconds 10;)"
+    },
+    {
+      "sid": 7,
+      "attack_type": "TCPSYN-flood",
+      "samples": 1,
+      "rule": "alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"TCPSYN-flood_attack\"; classtype:attempted-dos; sid:7; ttl:<13; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)"
+    },
+    {
+      "sid": 8,
+      "attack_type": "TCPSYN-flood",
+      "samples": 1,
+      "rule": "alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"TCPSYN-flood_attack\"; classtype:attempted-dos; sid:8; ttl:>12; dsize:<25; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)"
+    },
+    {
+      "sid": 9,
+      "attack_type": "TCPSYN-flood",
+      "samples": 1,
+      "rule": "alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"TCPSYN-flood_attack\"; classtype:attempted-dos; sid:9; ttl:<64; dsize:<25; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)"
+    },
+    {
+      "sid": 10,
+      "attack_type": "TCPSYN-flood",
+      "samples": 1,
+      "rule": "alert tcp $ZERO_TRUST any -> $NET_TO_PROTECT $PORT_GROUP (msg:\"TCPSYN-flood_attack\"; classtype:attempted-dos; sid:10; ttl:<64; dsize:<25; flags:S; flow:to_server; threshold:type both,track by_dst,count 100,seconds 10;)"
+    }
+  ],
+  "statistics": {
+    "total_rules": 10,
+    "rules_by_type": {
+      "ICMP-flood": 1,
+      "UDP-flood": 2,
+      "HTTP-flood": 2,
+      "DNS-flood": 1,
+      "TCPSYN-flood": 4
+    }
+  }
+}
